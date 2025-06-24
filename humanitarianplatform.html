@@ -3,672 +3,919 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unified MPC Platform</title>
+<title>Unified MPC Platform - Next Generation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
-    /* ========== Base ========== */
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: #000;
-        color:#fff;
-        line-height:1.6;
-        overflow-x:hidden;
-        position:relative;
+    /* ========== CSS Variables ========== */
+    :root {
+        --un-blue: #0099ff;
+        --un-light-blue: #4db8ff;
+        --un-dark-blue: #0066cc;
+        --un-green: #00BF63;
+        --un-light-green: #4dd896;
+        --primary-gradient: linear-gradient(135deg, #0099ff 0%, #0066cc 100%);
+        --accent-gradient: linear-gradient(135deg, #00BF63 0%, #0099ff 100%);
+        --dark-bg: #0a0a0a;
+        --card-bg: rgba(255, 255, 255, 0.02);
+        --border-color: rgba(255, 255, 255, 0.05);
+        --text-primary: #ffffff;
+        --text-secondary: rgba(255, 255, 255, 0.7);
+        --glow-color: rgba(0, 153, 255, 0.5);
+        --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+        --blur-amount: 20px;
     }
-    body::before{
-        content:'';
-        position:fixed;
-        top:0;left:0;right:0;bottom:0;
+
+    /* ========== Base Reset ========== */
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* ========== Smooth Scrolling ========== */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+    }
+
+    /* ========== Body ========== */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--dark-bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        position: relative;
+        min-height: 100vh;
+        cursor: default;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== Animated Background ========== */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: 
-            radial-gradient(circle at 20% 50%, rgba(255, 0, 128, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(0, 255, 128, 0.3) 0%, transparent 50%);
-        animation: morphBackground 20s ease-in-out infinite;
-        pointer-events:none;
-        z-index:0;
-    }
-    @keyframes morphBackground {
-        0%, 100% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
-        33% { transform: scale(1.1) rotate(120deg); filter: hue-rotate(120deg); }
-        66% { transform: scale(0.9) rotate(240deg); filter: hue-rotate(240deg); }
-    }
-    .container{max-width:1200px;margin:0 auto;padding:40px 20px;position:relative;z-index:1}
-
-    /* ========== HERO ========== */
-    .hero{text-align:center;margin-bottom:60px;position:relative}
-    .hero::before{
-        content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
-        width:500px;height:500px;
-        background:radial-gradient(circle, rgba(255,0,255,.4) 0%, rgba(0,255,255,.4) 50%, transparent 70%);
-        filter:blur(100px);
-        animation: heroGlow 4s ease-in-out infinite;
-        pointer-events:none;
-    }
-    @keyframes heroGlow {
-        0%, 100% { transform: translateX(-50%) scale(1); }
-        50% { transform: translateX(-50%) scale(1.2); }
+            radial-gradient(circle at 20% 80%, rgba(0, 153, 255, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(0, 191, 99, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
+        filter: blur(100px);
+        opacity: 0.5;
+        z-index: -1;
+        animation: floatingGradient 20s ease-in-out infinite;
     }
 
-    h1{
-        font-family: 'Bebas Neue', sans-serif;
-        font-size:5em;
-        font-weight:400;
-        letter-spacing:0.02em;
-        line-height:0.9;
-        background: linear-gradient(45deg, #FF006E, #8338EC, #3A86FF, #06FFB4, #FFD60A);
-        background-size: 300% 300%;
+    @keyframes floatingGradient {
+        0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        33% { transform: translate(-20px, -20px) scale(1.1) rotate(120deg); }
+        66% { transform: translate(20px, -10px) scale(0.9) rotate(240deg); }
+    }
+
+    /* ========== Noise Texture ========== */
+    body::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, 0.01) 35px, rgba(255, 255, 255, 0.01) 70px);
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.5;
+    }
+
+    /* ========== Container ========== */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ========== Hero Section ========== */
+    .hero {
+        text-align: center;
+        margin-bottom: 120px;
+        position: relative;
+        animation: fadeInUp 1s var(--transition-smooth);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 30px;
+        background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        animation: gradientShift 3s ease infinite;
-        position:relative;
-        text-transform:uppercase;
-        filter: drop-shadow(0 0 30px rgba(255,0,255,0.5));
+        position: relative;
+        letter-spacing: -0.03em;
+        animation: titleGlow 3s ease-in-out infinite;
     }
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+
+    @keyframes titleGlow {
+        0%, 100% { filter: brightness(1) drop-shadow(0 0 30px var(--glow-color)); }
+        50% { filter: brightness(1.2) drop-shadow(0 0 50px var(--glow-color)); }
     }
-    .subtitle{
-        font-size:1.4em;
-        color:#fff;
-        max-width:900px;
-        margin:30px auto 0;
-        font-weight:600;
-        letter-spacing:-0.02em;
-        text-shadow: 0 0 20px rgba(255,0,255,0.5);
+
+    .subtitle {
+        font-size: clamp(1.1rem, 2vw, 1.5rem);
+        color: var(--text-secondary);
+        max-width: 800px;
+        margin: 0 auto;
+        font-weight: 500;
+        line-height: 1.8;
+        animation: fadeIn 1.5s var(--transition-smooth) 0.3s both;
     }
-    .subtitle strong{
-        background: linear-gradient(90deg, #FF006E, #FFD60A);
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .subtitle strong {
+        color: var(--text-primary);
+        font-weight: 700;
+    }
+
+    /* ========== Glass Cards ========== */
+    .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(var(--blur-amount));
+        -webkit-backdrop-filter: blur(var(--blur-amount));
+        border: 1px solid var(--border-color);
+        border-radius: 24px;
+        padding: 48px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s var(--transition-smooth);
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .glass-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--primary-gradient);
+        opacity: 0;
+        transition: opacity 0.4s var(--transition-smooth);
+        z-index: -1;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(0, 153, 255, 0.3);
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 60px rgba(0, 153, 255, 0.2);
+    }
+
+    .glass-card:hover::before {
+        opacity: 0.05;
+    }
+
+    /* ========== Section Headers ========== */
+    .section-header {
+        text-align: center;
+        margin-bottom: 80px;
+        position: relative;
+    }
+
+    .section-header h2 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 700;
+        margin-bottom: 20px;
+        background: var(--accent-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        font-weight:800;
+        letter-spacing: -0.02em;
     }
 
-    /* ========== PROBLEM ========== */
-    .problem-section{
-        background: linear-gradient(135deg, rgba(255,0,110,0.1) 0%, rgba(131,56,236,0.1) 50%, rgba(58,134,255,0.1) 100%);
-        border:2px solid transparent;
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-        border-image: linear-gradient(135deg, #FF006E, #8338EC, #3A86FF) 1;
-        border-radius:30px;padding:40px;margin-bottom:40px;
-        backdrop-filter:blur(20px);
-        transition:all .3s ease;
-        position:relative;overflow:hidden;
-        box-shadow: 0 0 50px rgba(255,0,255,0.2);
+    .section-header p {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        font-weight: 500;
     }
-    .problem-section::after{
-        content:'';position:absolute;
-        top:0;left:0;right:0;bottom:0;
-        background: repeating-linear-gradient(
-            45deg,
-            transparent,
-            transparent 10px,
-            rgba(255,255,255,0.03) 10px,
-            rgba(255,255,255,0.03) 20px
-        );
-        pointer-events:none;
+
+    /* ========== Stats Grid ========== */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
+        margin: 60px 0;
     }
-    .problem-section:hover{
-        transform:translateY(-10px) scale(1.02);
-        box-shadow:0 30px 60px rgba(255,0,255,.4);
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 32px 24px;
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s var(--transition-smooth);
+        cursor: pointer;
     }
-    .problem-section h2{
-        font-family: 'Bebas Neue', sans-serif;
-        text-align:center;
-        margin-bottom:40px;
-        font-weight:400;
-        letter-spacing:0.05em;
-        font-size:3em;
-        position:relative;
-        text-transform:uppercase;
-        background: linear-gradient(90deg, #FFD60A, #FF006E, #FFD60A);
+
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 153, 255, 0.1) 0%, transparent 70%);
+        transform: scale(0);
+        transition: transform 0.6s var(--transition-smooth);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 153, 255, 0.3);
+    }
+
+    .stat-card:hover::after {
+        transform: scale(1);
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        background-size: 200% auto;
-        animation: textSlide 3s linear infinite;
-    }
-    @keyframes textSlide {
-        to { background-position: 200% center; }
-    }
-    .stats-grid{
-        display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-        gap:20px;margin:40px 0
-    }
-    .stat-card{
-        background: rgba(255,255,255,0.05);
-        padding:25px 20px;
-        border-radius:20px;
-        text-align:center;
-        border:2px solid transparent;
-        transition:all .3s ease;
-        position:relative;
-        overflow:hidden;
-    }
-    .stat-card::before{
-        content:'';
-        position:absolute;
-        top:0;left:0;right:0;bottom:0;
-        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-    }
-    .stat-card:hover::before{
-        transform: translateX(100%);
-    }
-    .stat-card:hover{
-        transform:scale(1.1) rotate(-2deg);
-        border-image: linear-gradient(45deg, #FF006E, #8338EC, #3A86FF, #06FFB4) 1;
-        box-shadow:0 10px 40px rgba(255,0,255,.4);
-    }
-    .stat-number{
-        font-family: 'Bebas Neue', sans-serif;
-        font-size:3.5em;
-        font-weight:400;
-        background: linear-gradient(45deg, #06FFB4, #3A86FF, #FF006E);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom:10px;
-        letter-spacing:0.02em;
-        filter: drop-shadow(0 0 20px rgba(6,255,180,0.5));
-    }
-    .stat-label{
-        color:#fff;
-        font-size:.9em;
-        font-weight:700;
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-    }
-    .small-text{
-        font-size:.8em;
-        color:#06FFB4;
-        margin-top:5px;
-        font-weight:500;
+        margin-bottom: 8px;
+        font-variant-numeric: tabular-nums;
     }
 
-    /* ========== SOLUTION ========== */
-    .solution-section{margin:60px 0}
-    .solution-header{text-align:center;margin-bottom:40px}
-    .solution-header h2{
-        font-family: 'Bebas Neue', sans-serif;
-        font-size:4em;
-        margin-bottom:15px;
-        font-weight:400;
-        letter-spacing:0.05em;
-        text-transform:uppercase;
-        background: linear-gradient(90deg, #3A86FF, #06FFB4, #3A86FF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        background-size: 200% auto;
-        animation: textSlide 3s linear infinite;
-        filter: drop-shadow(0 0 30px rgba(58,134,255,0.5));
-    }
-    .solution-header p{
-        color:#fff;
-        font-weight:600;
-        font-size:1.2em;
-        text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
-    .mpc-showcase{
-        background: linear-gradient(135deg, rgba(58,134,255,0.2) 0%, rgba(255,0,110,0.2) 100%);
-        border-radius:40px;
-        padding:60px;
-        margin:40px 0;
-        text-align:center;
-        position:relative;
-        overflow:hidden;
-        border:3px solid transparent;
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-        border-image: linear-gradient(135deg, #3A86FF, #FF006E, #FFD60A) 1;
-        box-shadow: 0 0 80px rgba(58,134,255,0.4),
-                    inset 0 0 50px rgba(255,0,255,0.1);
-    }
-    .mpc-showcase::before{
-        content:'';position:absolute;
-        width:200%;height:200%;
-        top:-50%;left:-50%;
-        background: conic-gradient(from 0deg, transparent, #FF006E, transparent, #3A86FF, transparent);
-        animation: rotate 10s linear infinite;
-        opacity:0.2;
-    }
-    @keyframes rotate{
-        100%{transform:rotate(360deg)}
+    /* ========== Modern Flow Design ========== */
+    .flow-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 32px;
+        margin: 80px 0;
+        flex-wrap: wrap;
+        position: relative;
     }
 
-    .mpc-flow{display:flex;justify-content:center;align-items:stretch;gap:30px;flex-wrap:wrap;margin:50px 0;position:relative;z-index:1}
-    .flow-item{
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: blur(20px);
-        border:2px solid rgba(255,255,255,0.2);
-        padding:35px 30px;
-        border-radius:30px;
-        flex:1;
-        min-width:250px;
-        max-width:350px;
-        position:relative;
-        transition:all .3s ease;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        text-align:center;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    }
-    .flow-item:hover{
-        transform:translateY(-15px) scale(1.05);
-        border-color:#06FFB4;
-        box-shadow:0 20px 60px rgba(6,255,180,.4);
+    .flow-item {
+        flex: 1;
+        min-width: 250px;
+        max-width: 350px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        text-align: center;
+        position: relative;
+        transition: all 0.4s var(--transition-smooth);
+        cursor: pointer;
     }
 
-    .big-number{
-        font-family: 'Bebas Neue', sans-serif;
-        font-size:4em;
-        font-weight:400;
-        margin:30px 0;
-        letter-spacing:0.05em;
-        text-transform:uppercase;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        gap:15px;
-        position:relative;
-        z-index:1;
-        background: linear-gradient(45deg, #FFD60A, #FF006E, #8338EC, #3A86FF, #06FFB4);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        background-size: 300% 300%;
-        animation: gradientShift 3s ease infinite;
-        filter: drop-shadow(0 0 40px rgba(255,214,10,0.5));
+    .flow-item::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 24px;
+        padding: 1px;
+        background: var(--primary-gradient);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: exclude;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s var(--transition-smooth);
     }
 
-    /* ========== TECH STACK ========== */
-    .tech-stack{
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-        gap:25px;
-        margin:50px 0
+    .flow-item:hover {
+        transform: translateY(-10px) scale(1.05);
+        background: rgba(255, 255, 255, 0.05);
     }
-    .tech-card{
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        border:2px solid transparent;
-        border-radius:30px;
-        padding:35px;
-        position:relative;
-        overflow:hidden;
-        transition:all .3s ease;
-        cursor:pointer;
+
+    .flow-item:hover::before {
+        opacity: 1;
+    }
+
+    .flow-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 2px;
+        background: var(--primary-gradient);
+        opacity: 0.3;
+    }
+
+    .flow-arrow::after {
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid rgba(0, 153, 255, 0.5);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+    }
+
+    /* ========== Tech Stack Grid ========== */
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 32px;
+        margin: 60px 0;
+    }
+
+    .tech-card {
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s var(--transition-smooth);
+        cursor: pointer;
         transform-style: preserve-3d;
     }
-    .tech-card::before{
-        content:'';
-        position:absolute;
-        top:-2px;left:-2px;right:-2px;bottom:-2px;
-        background: linear-gradient(45deg, #FF006E, #8338EC, #3A86FF, #06FFB4, #FFD60A);
-        border-radius:30px;
-        z-index:-1;
-        opacity:0;
-        transition: opacity 0.3s;
-    }
-    .tech-card:hover::before{
-        opacity:1;
-    }
-    .tech-card:hover{
-        transform:translateY(-10px) rotateX(-10deg) scale(1.05);
-        box-shadow:0 30px 60px rgba(255,0,255,.4);
-    }
-    .tech-title{
-        font-size:1.3em;
-        font-weight:800;
-        margin-bottom:15px;
-        color:#fff;
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-    }
-    .tech-description{
-        font-size:.95em;
-        color:#fff;
-        font-weight:500;
-        line-height:1.6;
-        opacity:0.9;
+
+    .tech-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary-gradient);
+        transform: translateY(-100%);
+        transition: transform 0.4s var(--transition-smooth);
     }
 
-    /* ========== TIMELINE ========== */
-    .timeline{position:relative;padding:60px 0}
-    .timeline::before{
-        content:'';
-        position:absolute;
-        left:50%;
-        top:0;
-        bottom:0;
-        width:4px;
-        background: linear-gradient(180deg, #FF006E 0%, #8338EC 25%, #3A86FF 50%, #06FFB4 75%, #FFD60A 100%);
-        transform:translateX(-50%);
-        border-radius:2px;
-        box-shadow: 0 0 20px rgba(255,0,255,0.5);
-    }
-    .timeline-item{
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:60px;
-        position:relative
-    }
-    .timeline-item:nth-child(even){flex-direction:row-reverse}
-    .timeline-content{
-        width:45%;
-        background: rgba(255,255,255,0.05);
-        backdrop-filter: blur(20px);
-        padding:30px;
-        border-radius:30px;
-        border:2px solid rgba(255,255,255,0.2);
-        transition:all .3s ease;
-        position:relative;
-        overflow:hidden;
-    }
-    .timeline-content::before{
-        content:'';
-        position:absolute;
-        top:0;left:0;right:0;bottom:0;
-        background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-    }
-    .timeline-content:hover::before{
-        transform: translateX(100%);
-    }
-    .timeline-content:hover{
-        transform:scale(1.05);
-        border-color:#06FFB4;
-        box-shadow:0 20px 50px rgba(6,255,180,.4);
-    }
-    .timeline-content h3{
-        font-weight:800;
-        text-transform:uppercase;
-        letter-spacing:0.05em;
-        margin-bottom:15px;
-        color:#06FFB4;
-        font-size:1.2em;
-    }
-    .timeline-content p{
-        font-weight:500;
-        line-height:1.6;
-        color:#fff;
-    }
-    .timeline-year{
-        position:absolute;
-        left:50%;
-        transform:translateX(-50%);
-        background: linear-gradient(135deg, #FF006E, #8338EC);
-        padding:15px 30px;
-        border-radius:50px;
-        font-weight:800;
-        color:#fff;
-        box-shadow:0 10px 40px rgba(255,0,110,.5);
-        text-transform:uppercase;
-        letter-spacing:0.1em;
-        font-size:1.1em;
-        z-index:2;
-        transition: all 0.3s ease;
-    }
-    .timeline-year:hover{
-        transform:translateX(-50%) scale(1.2);
-        box-shadow:0 15px 50px rgba(255,0,110,.7);
+    .tech-card:hover {
+        transform: translateY(-5px) rotateX(5deg);
+        background: rgba(255, 255, 255, 0.04);
     }
 
-    .timeline h2{
-        font-family: 'Bebas Neue', sans-serif;
-        font-weight:400;
-        letter-spacing:0.05em;
-        font-size:3.5em;
-        text-transform:uppercase;
-        background: linear-gradient(90deg, #06FFB4, #3A86FF, #06FFB4);
+    .tech-card:hover::before {
+        transform: translateY(0);
+    }
+
+    .tech-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    .tech-description {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        font-weight: 500;
+    }
+
+    /* ========== Timeline ========== */
+    .timeline {
+        position: relative;
+        padding: 80px 0;
+        margin: 120px 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(180deg, transparent, rgba(0, 153, 255, 0.3), rgba(0, 153, 255, 0.6), rgba(0, 153, 255, 0.3), transparent);
+        transform: translateX(-50%);
+    }
+
+    .timeline-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 80px;
+        position: relative;
+        opacity: 0;
+        animation: fadeInUp 0.8s var(--transition-smooth) forwards;
+    }
+
+    .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+    .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+    .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+
+    .timeline-content {
+        width: 45%;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        position: relative;
+        transition: all 0.4s var(--transition-smooth);
+    }
+
+    .timeline-content:hover {
+        transform: scale(1.03);
+        background: rgba(255, 255, 255, 0.04);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .timeline-content h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        background-size: 200% auto;
-        animation: textSlide 3s linear infinite;
     }
 
-    /* ========== CTA ========== */
-    .cta-section{
-        text-align:center;
-        margin-top:100px;
-        padding:80px 60px;
-        background: linear-gradient(135deg, rgba(255,0,110,0.3) 0%, rgba(131,56,236,0.3) 50%, rgba(58,134,255,0.3) 100%);
-        border-radius:50px;
-        position:relative;
-        overflow:hidden;
-        border:3px solid transparent;
-        background-origin: border-box;
-        background-clip: padding-box, border-box;
-        border-image: linear-gradient(135deg, #FF006E, #8338EC, #3A86FF, #06FFB4) 1;
-        box-shadow: 0 0 100px rgba(255,0,255,0.4),
-                    inset 0 0 60px rgba(255,255,255,0.1);
+    .timeline-content p {
+        color: var(--text-secondary);
+        line-height: 1.8;
+        font-weight: 500;
     }
-    .cta-section::before{
-        content:'';
-        position:absolute;
-        width:300%;
-        height:300%;
-        top:-100%;
-        left:-100%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+
+    .timeline-marker {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        box-shadow: 0 0 0 4px var(--dark-bg), 0 0 0 6px rgba(0, 153, 255, 0.3);
+        z-index: 2;
+    }
+
+    /* ========== CTA Section ========== */
+    .cta-section {
+        text-align: center;
+        padding: 100px 60px;
+        margin-top: 120px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 32px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
         animation: pulse 4s ease-in-out infinite;
     }
-    @keyframes pulse{
-        0%, 100%{transform:scale(0.8);opacity:0}
-        50%{transform:scale(1.2);opacity:1}
-    }
-    .cta-title{
-        font-family: 'Bebas Neue', sans-serif;
-        font-size:4em;
-        margin-bottom:30px;
-        font-weight:400;
-        letter-spacing:0.05em;
-        position:relative;
-        z-index:1;
-        text-transform:uppercase;
-        background: linear-gradient(45deg, #FFD60A, #FF006E, #8338EC, #3A86FF);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        background-size: 300% 300%;
-        animation: gradientShift 3s ease infinite;
-        filter: drop-shadow(0 0 50px rgba(255,0,255,0.5));
-    }
-    .cta-text{
-        font-size:1.3em;
-        font-weight:600;
-        color:#fff;
-        max-width:800px;
-        margin:0 auto;
-        position:relative;
-        z-index:1;
-        line-height:1.8;
-        text-shadow: 0 0 20px rgba(255,255,255,0.3);
-    }
-    .highlight{
-        background: linear-gradient(90deg, #06FFB4, #FFD60A);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight:800;
-        font-size:1.1em;
-        filter: drop-shadow(0 0 10px rgba(6,255,180,0.5));
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.2); opacity: 1; }
     }
 
-    /* ========== MOBILE ========== */
-    @media(max-width:768px){
-        h1{font-size:3.5em}
-        .problem-section{padding:30px}
-        .problem-section h2{font-size:2.2em}
-        .timeline::before{left:20px}
-        .timeline-item,.timeline-item:nth-child(even){flex-direction:column;align-items:flex-start}
-        .timeline-content{width:calc(100% - 50px);margin-left:50px}
-        .timeline-year{left:0;transform:none}
-        .mpc-flow{flex-direction:column;align-items:center}
-        .flow-item{min-width:100%;max-width:100%}
-        .mpc-showcase{padding:40px}
-        .cta-section{padding:50px 30px}
-        .big-number{font-size:2.5em}
-        .solution-header h2{font-size:2.8em}
-        .cta-title{font-size:2.8em}
+    .cta-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 32px;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-text {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+        position: relative;
+        z-index: 1;
+        font-weight: 500;
+    }
+
+    .highlight {
+        color: var(--text-primary);
+        font-weight: 700;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    .highlight::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--primary-gradient);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s var(--transition-smooth);
+    }
+
+    .highlight:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    /* ========== Responsive Design ========== */
+    @media (max-width: 768px) {
+        .container {
+            padding: 40px 16px;
+        }
+
+        .glass-card {
+            padding: 32px 24px;
+        }
+
+        .flow-container {
+            flex-direction: column;
+        }
+
+        .flow-arrow {
+            display: none;
+        }
+
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-item,
+        .timeline-item:nth-child(even) {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .timeline-content {
+            width: calc(100% - 60px);
+            margin-left: 60px;
+        }
+
+        .timeline-marker {
+            left: 30px;
+        }
+
+        .cta-section {
+            padding: 60px 32px;
+        }
+    }
+
+    /* ========== Intersection Observer Animations ========== */
+    .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s var(--transition-smooth);
+    }
+
+    .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ========== Loading Animation ========== */
+    .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--dark-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s var(--transition-smooth);
+    }
+
+    .loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 3px solid rgba(0, 153, 255, 0.2);
+        border-top-color: var(--un-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    /* ========== Smooth Number Counter ========== */
+    .counter {
+        display: inline-block;
+        font-variant-numeric: tabular-nums;
     }
 </style>
 </head>
 <body>
-<div class="container">
-
-    <!-- HERO -->
-    <div class="hero">
-        <h1>One Registration. One Payment.<br><span style="font-size:0.9em">Infinite Impact.</span></h1>
-        <p class="subtitle">
-            <strong>300+ million people</strong> waiting for a revolutionary unified platform.<br>
-            One registration system. One payment. One future.
-        </p>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
     </div>
 
-    <!-- PROBLEM -->
-    <div class="problem-section">
-        <h2>The Humanitarian Chaos We Must End</h2>
-
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number">50K+</div><div class="stat-label">Registration Systems Globally</div><div class="small-text">Total chaos across sectors</div></div>
-            <div class="stat-card"><div class="stat-number">3-10K</div><div class="stat-label">Organizations in Haiti</div><div class="small-text">Government can't even count them</div></div>
-            <div class="stat-card"><div class="stat-number">200</div><div class="stat-label">Active Orgs in Yemen</div><div class="small-text">Each with separate systems</div></div>
-            <div class="stat-card"><div class="stat-number">5x</div><div class="stat-label">Average Registrations</div><div class="small-text">Same family, same data</div></div>
-            <div class="stat-card"><div class="stat-number">400+</div><div class="stat-label">Haiti Meeting Attendees</div><div class="small-text">vs normal 15-20 people</div></div>
-            <div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">UNHCR Legacy Databases</div><div class="small-text">Before consolidation attempt</div></div>
-            <div class="stat-card"><div class="stat-number">65+</div><div class="stat-label">Organizations in Ukraine</div><div class="small-text">Massive duplication risk</div></div>
-            <div class="stat-card"><div class="stat-number">17</div><div class="stat-label">Agencies in Somalia</div><div class="small-text">Separate cash programs</div></div>
-        </div>
-
-        <p style="text-align:center;color:#fff;margin-top:30px;font-weight:500;font-size:1.05em;text-shadow:0 0 10px rgba(255,255,255,0.3)">
-            A mother in Port-au-Prince must navigate between 3,000-10,000 organizations, registering 5+ times with different agencies. 
-            In Yemen, 200 organizations operate parallel systems. Health cluster meetings in Haiti balloon from 20 to 400+ people. 
-            This isn't coordination—it's humanitarian chaos where no one even knows the total number of systems.
-        </p>
-    </div>
-
-    <!-- SOLUTION -->
-    <div class="solution-section">
-        <div class="solution-header">
-            <h2>The Game Changer</h2>
-            <p>One registration. One payment. Total transformation.</p>
-        </div>
-
-        <div class="mpc-showcase">
-
-            <div class="mpc-flow">
-                <div class="flow-item">
-                    <div style="font-size:1.6em;color:#FF006E;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;filter:drop-shadow(0 0 10px rgba(255,0,110,0.5))">5x Registrations</div>
-                    <div style="color:#fff;font-weight:500">Same data, endless forms</div>
-                </div>
-                <div class="flow-item">
-                    <div style="font-size:1.6em;color:#FFD60A;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;filter:drop-shadow(0 0 10px rgba(255,214,10,0.5))">Multiple Payments</div>
-                    <div style="color:#fff;font-weight:500">Different days & places</div>
-                </div>
-                <div class="flow-item">
-                    <div style="font-size:1.6em;color:#06FFB4;font-weight:800;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;filter:drop-shadow(0 0 10px rgba(6,255,180,0.5))">ONE Registration</div>
-                    <div style="font-size:1.4em;color:#3A86FF;font-weight:700;filter:drop-shadow(0 0 10px rgba(58,134,255,0.5))">ONE Payment</div>
-                    <div style="color:#fff;font-weight:600;margin-top:10px">All needs unified</div>
-                </div>
-            </div>
-
-            <div class="big-number">
-                Combined Monthly Transfer
-            </div>
-            <p style="color:#fff;font-size:1.2em;font-weight:600;position:relative;z-index:1;text-shadow:0 0 10px rgba(255,255,255,0.3)">
-                WFP Food + UNHCR Shelter + UNICEF Education = <strong style="color:#06FFB4;font-weight:800">ONE unified payment</strong><br>
-                <span style="color:#fff;font-size:0.9em;opacity:0.9">Single registration unlocks ALL humanitarian services globally</span>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>One Registration.<br>One Payment.<br>Infinite Impact.</h1>
+            <p class="subtitle">
+                <strong>300+ million people</strong> are waiting for a unified humanitarian platform.
+                One system to rule them all. One payment to serve them all.
             </p>
-        </div>
+        </section>
 
-        <!-- TECH STACK -->
-        <div class="tech-stack">
-            <div class="tech-card">
-                <div class="tech-title">Smart Contract Magic ✨</div>
-                <div class="tech-description">AI automatically calculates total assistance across all agencies, preventing duplication instantly</div>
+        <!-- Problem Section -->
+        <section class="glass-card animate-on-scroll">
+            <div class="section-header">
+                <h2>The Humanitarian Chaos</h2>
+                <p>A fragmented system that fails millions daily</p>
             </div>
-            <div class="tech-card">
-                <div class="tech-title">One Registration Forever 🔥</div>
-                <div class="tech-description">Register ONCE with any agency, access ALL services globally. Your identity travels with you</div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="50000">0</div>
+                    <div class="stat-label">Registration Systems</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="10000">0</div>
+                    <div class="stat-label">Organizations in Haiti</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="200">0</div>
+                    <div class="stat-label">Active Orgs in Yemen</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="5">0</div>
+                    <div class="stat-label">Average Registrations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="400">0</div>
+                    <div class="stat-label">Haiti Meeting Size</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="500">0</div>
+                    <div class="stat-label">UNHCR Databases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="65">0</div>
+                    <div class="stat-label">Ukraine Organizations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number counter" data-target="17">0</div>
+                    <div class="stat-label">Somalia Agencies</div>
+                </div>
             </div>
-            <div class="tech-card">
-                <div class="tech-title">Instant Deduplication ⚡</div>
-                <div class="tech-description">Blockchain detects overlap between agencies and consolidates automatically</div>
+
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.125rem; max-width: 900px; margin: 40px auto 0; line-height: 1.8; font-weight: 500;">
+                A mother in Port-au-Prince navigates between thousands of organizations, registering multiple times.
+                This isn't coordination—it's chaos where no system talks to another.
+            </p>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="animate-on-scroll" style="margin-top: 120px;">
+            <div class="section-header">
+                <h2>The Transformation</h2>
+                <p>One platform to unify them all</p>
             </div>
-            <div class="tech-card">
-                <div class="tech-title">Works Everywhere 🌍</div>
-                <div class="tech-description">Offline-first design operates in conflict zones and remote areas worldwide</div>
+
+            <div class="glass-card" style="padding: 80px 60px;">
+                <div class="flow-container">
+                    <div class="flow-item">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #4dd896; margin-bottom: 12px;">Current State</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">5x Registrations</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">Multiple Payments</div>
+                    </div>
+                    <div class="flow-arrow" style="left: 33%;"></div>
+                    <div class="flow-item">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--un-blue); margin-bottom: 12px;">Innovation</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">Unified System</div>
+                        <div style="color: var(--text-secondary); font-weight: 500;">Smart Contracts</div>
+                    </div>
+                    <div class="flow-arrow" style="right: 33%;"></div>
+                    <div class="flow-item">
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--un-green); margin-bottom: 12px;">Future State</div>
+                        <div style="color: var(--text-primary); font-weight: 600;">ONE Registration</div>
+                        <div style="color: var(--text-primary); font-weight: 600;">ONE Payment</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 60px;">
+                    <h3 style="font-size: 2.5rem; font-weight: 700; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">
+                        Combined Monthly Transfer
+                    </h3>
+                    <p style="font-size: 1.25rem; color: var(--text-secondary); font-weight: 500; line-height: 1.8;">
+                        WFP Food + UNHCR Shelter + UNICEF Education = <strong style="color: var(--text-primary);">ONE unified payment</strong>
+                    </p>
+                </div>
             </div>
-        </div>
+
+            <!-- Tech Stack -->
+            <div class="tech-grid" style="margin-top: 60px;">
+                <div class="tech-card animate-on-scroll">
+                    <div class="tech-title">AI-Powered Smart Contracts</div>
+                    <div class="tech-description">Automatically calculates and consolidates assistance across all agencies in real-time</div>
+                </div>
+                <div class="tech-card animate-on-scroll">
+                    <div class="tech-title">Universal Digital Identity</div>
+                    <div class="tech-description">Register once with any agency, instantly recognized by all humanitarian systems globally</div>
+                </div>
+                <div class="tech-card animate-on-scroll">
+                    <div class="tech-title">Blockchain Deduplication</div>
+                    <div class="tech-description">Zero overlap, zero waste. Every dollar tracked, every beneficiary verified instantly</div>
+                </div>
+                <div class="tech-card animate-on-scroll">
+                    <div class="tech-title">Offline-First Architecture</div>
+                    <div class="tech-description">Works everywhere—from urban centers to remote conflict zones without internet</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline">
+            <div class="section-header">
+                <h2>Path to Global Impact</h2>
+                <p>From pilot to planetary scale</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Year 1: Proof of Concept</h3>
+                    <p>WFP + UNHCR pilot demonstrates 70% cost reduction. 10,000 families receive unified assistance.</p>
+                </div>
+                <div class="timeline-marker"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Year 2: Scale & Expand</h3>
+                    <p>100,000+ families served. 5-7 major agencies integrated. AI optimization reduces fraud by 90%.</p>
+                </div>
+                <div class="timeline-marker"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Year 3: Billion Dollar Impact</h3>
+                    <p>$1B+ in unified payments. 1 million households. Becomes the standard in 10+ countries.</p>
+                </div>
+                <div class="timeline-marker"></div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>Year 5: Global Standard</h3>
+                    <p>100+ million beneficiaries. $5B+ annually. One registration becomes humanitarian law.</p>
+                </div>
+                <div class="timeline-marker"></div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section animate-on-scroll">
+            <h2 class="cta-title">The Choice Is Clear</h2>
+            <p class="cta-text">
+                Continue forcing millions through <span class="highlight">50,000+ systems</span>,
+                or build a world where <span class="highlight">ONE registration</span> unlocks
+                <span class="highlight">ONE payment</span> covering all needs—forever.
+            </p>
+            <p style="margin-top: 40px; font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">
+                The future is unified. The future is now.
+            </p>
+        </section>
     </div>
 
-    <!-- TIMELINE -->
-    <div class="timeline">
-        <h2 style="text-align:center;margin-bottom:50px;">
-            Path to Global Transformation
-        </h2>
+    <script>
+        // Remove loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 500);
+        });
 
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <h3>Single Registration Pilot</h3>
-                <p>WFP + UNHCR prove ONE registration works. 10,000 families register once, receive unified payments from both agencies.</p>
-            </div>
-            <div class="timeline-year">Year 1</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <h3>100,000+ Families</h3>
-                <p>5-7 agencies unified. 50% reduction in payment costs. Beneficiaries report 70%+ preference for single payment.</p>
-            </div>
-            <div class="timeline-year">Year 2</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <h3>$1 Billion in Unified MPC</h3>
-                <p>10+ agencies operational. 1 million households receive consolidated assistance. AI optimizes payment amounts.</p>
-            </div>
-            <div class="timeline-year">Year 3</div>
-        </div>
-        <div class="timeline-item">
-            <div class="timeline-content">
-                <h3>Global Standard</h3>
-                <p>$5+ billion annually. 100+ million beneficiaries. One registration, one payment becomes the norm.</p>
-            </div>
-            <div class="timeline-year">Year 5</div>
-        </div>
-    </div>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-    <!-- CTA -->
-    <div class="cta-section">
-        <h2 class="cta-title">The Choice Is Clear</h2>
-        <p class="cta-text">
-            Continue forcing millions to navigate <span class="highlight">50,000+ systems</span>, 
-            register <span class="highlight">5+ times</span>, and collect <span class="highlight">multiple payments</span>...<br><br>
-            <span style="font-size:1.3em;font-weight:800">OR</span><br><br>
-            Build a world where <span class="highlight">ONE registration</span> unlocks 
-            <span class="highlight">ONE dignified payment</span> covering all needs—forever.
-        </p>
-        <p style="margin-top:50px;font-size:1.5em;color:#fff;font-weight:800;position:relative;z-index:1;text-transform:uppercase;letter-spacing:0.05em;text-shadow:0 0 30px rgba(255,255,255,0.5)">
-            Register once. Receive one payment. Access everything.
-        </p>
-    </div>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Start counter animation for stat numbers
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const duration = 2000;
+                        const increment = target / (duration / 16);
+                        let current = 0;
+                        
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.textContent = Math.floor(current).toLocaleString() + (target > 1000 ? '+' : 'x');
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.textContent = target.toLocaleString() + (target > 1000 ? '+' : 'x');
+                            }
+                        };
+                        
+                        updateCounter();
+                    });
+                }
+            });
+        }, observerOptions);
 
-</div>
+        // Observe all animated elements
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.body.style.setProperty('--mouse-x', x);
+            document.body.style.setProperty('--mouse-y', y);
+        });
+
+        // Add subtle tilt effect to cards
+        document.querySelectorAll('.stat-card, .tech-card, .flow-item').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    </script>
 </body>
 </html>
