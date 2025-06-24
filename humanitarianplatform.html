@@ -44,19 +44,6 @@
                     0 0 20px rgba(255,255,255,0.2);
         position:relative;
     }
-    h1::after{
-        content:attr(data-text);
-        position:absolute;
-        left:0;top:0;
-        color:transparent;
-        background:linear-gradient(180deg,rgba(255,255,255,0.95) 0%,rgba(255,255,255,0) 50%);
-        -webkit-background-clip:text;
-        background-clip:text;
-        -webkit-text-fill-color:transparent;
-        opacity:0.15;
-        z-index:-1;
-        pointer-events:none;
-    }
     .subtitle{
         font-size:1.3em;color:#94a3b8;max-width:900px;margin:20px auto 0;
         font-weight:500;
@@ -245,16 +232,11 @@
     }
     .highlight{
         color:#4db8ff;font-weight:800;
-        text-decoration:underline;
-        text-decoration-color:rgba(77,184,255,0.5);
-        text-decoration-thickness:3px;
-        text-underline-offset:3px;
     }
 
     /* ========== MOBILE ========== */
     @media(max-width:768px){
         h1{font-size:2.5em}
-        h1::after{display:none}
         .problem-section{padding:25px}
         .problem-section h2{font-size:1.8em}
         .problem-section h2::before,
@@ -276,7 +258,7 @@
 
     <!-- HERO -->
     <div class="hero">
-        <h1 data-text="One Registration. One Payment. Infinite Impact.">One Registration. One Payment.<br><span style="font-size:0.9em">Infinite Impact.</span></h1>
+        <h1>One Registration. One Payment.<br><span style="font-size:0.9em">Infinite Impact.</span></h1>
         <p class="subtitle">
             <strong>300+ million people</strong> waiting for a revolutionary unified platform.<br>
             One registration system. One payment. One future.
